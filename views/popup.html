@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wishing Space Extension's Popup</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/fontawesome.min.css"/>
+    <link rel="stylesheet" href="../css/app.css"/>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </head>
+  <body class="popup">
+    <!-- HEADER -->
+    <div class="modal-header panel-heading d-flex">
+        <i class="fas fa-plus fa-2x mr-2 align-self-center"></i>
+        <h4 class="modal-title">Ajouter un souhait</h4>
+        <img id="user-avatar" class="rounded ml-auto" style="display:none" 
+            data-toggle="tooltip" 
+            data-placement="bottom" 
+            height="42"
+            title="Connecter en tant que ..."/>
+    </div>
+    <!-- CONTENT -->
+    <div class="modal-body pb-0" id="content">
+      <!-- ERROR  -->
+      <div id="error" style="display: none">
+        <div id="error-content" class="alert alert-danger">
+        </div>
+        <form name="infoForm">
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Adresse e-mail</label>
+              <div class="input-group col-sm-7">
+                  <div class="input-group-prepend"><span class="input-group-text">@</span></div>
+                  <input type="email" id="email" name="email" 
+                    placeholder="monadresse@mail.com" class="form-control"/>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Mot de passe</label>
+              <div class="input-group col-sm-7">
+                <input type="password" id="password" name="password" 
+                  placeholder="mon mot de passe" class="form-control"/>
+              </div>
+          </div>
+        </form>
+        <p>
+          Pour utiliser cette extension un compte est nécessaire sur le site <a href="https://www.wishing.space" target="_blank">wishing.space</a>.
+        </p>
+      </div>
+      <!-- STATUS  -->
+      <div id="status" class="alert alert-info" style="display: none">
+      </div>
+      <!-- WISH FORM -->
+      <form id="wishForm" style="display: none">
+        <input type="hidden" name="pageid"/>
+        <!-- Nom du wish -->
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Nom</label>
+          <div class="col-sm-9">
+            <input type="text" name="nom" class="form-control" maxlength="255"/>
+          </div>
+        </div>
+        <!-- Image(s) -->
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Image</label>
+          <div class="col-sm-6">
+            <input type="text" name="image" class="form-control" maxlength="1024"/>
+          </div>
+          <div class="col-sm-3">
+            <img id="image" class="thumb" style="display:none"/>
+          </div>
+        </div>
+        <!-- Lien(s) -->
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Lien</label>
+          <div class="col-sm-9">
+            <input type="text" name="lien" class="form-control" maxlength="1024"/>
+          </div>
+        </div>
+        <!-- Niveau de désir -->
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Niveau de désir</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="far fa-thumbs-up"></i>
+                </span>
+              </div>
+              <input type="number" min="0" max="5" name="happiness" class="form-control" placeholder="Entre 1 et 5" />
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <a id="show-more" class="btn btn-info"><i class="fas fa-chevron-down"></i> Plus de caractéristiques</a>
+          <a id="show-less" class="btn btn-info" style="display: none"><i class="fas fa-chevron-up"></i> Moins de caractéristiques</a>
+        </div>
+        <div id="show-more-content" style="display: none">
+          <!-- Type de lien -->
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Type de liens</label>
+            <div class="col-sm-5"><big>
+              <input type="radio" name="lientype" value="1" checked="checked" id="lien-libre" /> <i class="fas fa-unlock fa-sm"></i> Libre  &nbsp; 
+              <input type="radio" name="lientype" value="2" id="lien-stricte"/> <i class="fas fa-lock fa-sm"></i> Stricte 
+            </big></div>
+          </div>
+          <!-- Catégorie -->
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Catégorie</label>
+            <div class="col-sm-9">
+                <input type="text" name="category" class="form-control" placeholder="Maison" maxlength="255"/>
+            </div>
+          </div>
+          <!-- Prix -->
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Prix approximatif</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">&euro;</span></div>
+                <input type="number" min="0" name="prix" class="form-control" placeholder="Prix"/>
+              </div>
+            </div>
+          </div>
+          <!-- D&eacute;tails -->
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Informations compl&eacute;mentaires</label>
+            <div class="col-sm-9">
+              <input type="hidden" name="info-origin"/>
+              <textarea class="form-control" name="info" placeholder="super commentaire" cols="35" rows="2" maxlength="255" style="resize: none;"></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- WISH FORM ERRORS -->
+      <div id="validation-errors" class="alert alert-danger" style="margin-bottom:0; display:none">
+      </div>
+      <!-- CONTENT ADDED  -->
+      <div id="wish-added" style="display: none">
+         <h2 class="alert alert-info">
+          <i class="far fa-thumbs-up"></i> 
+          Le souhait a bien été ajouté à liste !
+         </h2>
+         <h3>
+             Pour consulter la liste associée <a href="https://www.wishing.space" target="_blank" id="wish-added-link">cliquez ici</a>.
+          </h3>
+      </div>
+    </div>
+    <!-- FOOTER -->
+    <div class="modal-footer form-inline m-0 d-flex">
+        <!-- WISHLIST FORM -->
+        <div id="footer-info" style="display:none">
+          <div>
+            <input type="hidden" name="typeList" value="mine">
+            <span class="fas fa-user fa-2x button-cursor text-info" 
+              data-toggle="tooltip" 
+              data-placement="top" 
+              title="Utiliser une liste qui m'appartient"
+              id="mine"></span> 
+            <span class="fas fa-users fa-2x button-cursor" 
+              data-toggle="tooltip" 
+              data-placement="top" 
+              title="Utiliser une liste que je suis"
+              id="follow"></span> &nbsp; 
+            <select id="my-list" class="form-control">
+              <option value="">-- Selectionnez une de vos listes --</option>
+              <option value="me">Ma liste</option>
+            </select> 
+            <select id="follow-list" class="form-control" style="display:none">
+              <option value="">-- Selectionnez la liste d'un autre --</option>
+            </select>
+          </div>
+        </div>
+        <!-- ACTIONS -->
+        <div class="ml-auto">
+          <button id="close" class="btn btn-default">Fermer</button>
+          <button id="login" class="btn btn-primary" style="display:none">Se connecter</button>
+          <button id="ok" class="btn btn-success"><i class="fas fa-check-circle"></i> Ajouter à la liste</button>
+        </div>
+    </div>
+    <script src="./popup.js"></script>
+  </body>
+</html>
+
